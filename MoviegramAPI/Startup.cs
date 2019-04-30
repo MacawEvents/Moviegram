@@ -33,7 +33,7 @@ namespace MoviegramAPI
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new Info { Title = "MoviegramAPI", Version = "v1" });
+                c.SwaggerDoc("v1", new Info { Title = "MoviegramAPI", Version = "v1", Description = "Sample API submitted by Jason King, demonstrating basic Swagger functionality, some unit tests to illustrate controller testing and rudimentary EF Core usage with seed data." });
             });
 
             

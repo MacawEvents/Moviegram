@@ -34,7 +34,7 @@ namespace MoviegramAPI.Data
 
         public Movie Get(int id)
         {
-            return this.context.Movie.Find(id);
+            return this.context.Movie.Include(m => m.ViewTimes).FirstOrDefault(m=>m.MovieId == id);
         }
 
         public Movie Insert(Movie movie)

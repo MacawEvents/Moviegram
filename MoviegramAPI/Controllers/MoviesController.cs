@@ -33,6 +33,9 @@ namespace MoviegramAPI.Controllers
 
         // GET: api/Movies/5
         [HttpGet("{id}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
         public IActionResult GetMovie([FromRoute] int id)
         {
             if (!ModelState.IsValid)
@@ -52,6 +55,9 @@ namespace MoviegramAPI.Controllers
 
         // PUT: api/Movies/5
         [HttpPut("{id}")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
         public IActionResult PutMovie([FromRoute] int id, [FromBody] Movie movie)
         {
             if (!ModelState.IsValid)
@@ -77,6 +83,8 @@ namespace MoviegramAPI.Controllers
 
         // POST: api/Movies
         [HttpPost]
+        [ProducesResponseType(201)]
+        [ProducesResponseType(400)]
         public IActionResult PostMovie([FromBody] Movie movie)
         {
             if (!ModelState.IsValid)
@@ -92,6 +100,9 @@ namespace MoviegramAPI.Controllers
 
         // DELETE: api/Movies/5
         [HttpDelete("{id}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
         public IActionResult DeleteMovie([FromRoute] int id)
         {
             if (!ModelState.IsValid)

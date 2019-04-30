@@ -29,6 +29,9 @@ namespace MoviegramAPI.Controllers
 
         // GET: api/MovieViewTimes/5
         [HttpGet("{id}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
         public async Task<IActionResult> GetMovieViewTime([FromRoute] int id)
         {
             if (!ModelState.IsValid)
@@ -48,6 +51,9 @@ namespace MoviegramAPI.Controllers
 
         // PUT: api/MovieViewTimes/5
         [HttpPut("{id}")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
         public async Task<IActionResult> PutMovieViewTime([FromRoute] int id, [FromBody] MovieViewTime movieViewTime)
         {
             if (!ModelState.IsValid)
@@ -83,6 +89,8 @@ namespace MoviegramAPI.Controllers
 
         // POST: api/MovieViewTimes
         [HttpPost]
+        [ProducesResponseType(201)]
+        [ProducesResponseType(400)]
         public async Task<IActionResult> PostMovieViewTime([FromBody] MovieViewTime movieViewTime)
         {
             if (!ModelState.IsValid)
@@ -98,6 +106,9 @@ namespace MoviegramAPI.Controllers
 
         // DELETE: api/MovieViewTimes/5
         [HttpDelete("{id}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
         public async Task<IActionResult> DeleteMovieViewTime([FromRoute] int id)
         {
             if (!ModelState.IsValid)

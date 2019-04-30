@@ -25,6 +25,6 @@ namespace MoviegramTests.Controllers
             Assert.AreEqual(2, ((Movie)results.Value).MovieId);
         }
 
-        // Et cetera - more tests to prove the controller
+        // Et cetera - more tests to prove the controller and various return codes
     }
 }
