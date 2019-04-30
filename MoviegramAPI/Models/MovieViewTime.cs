@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -12,6 +13,7 @@ namespace MoviegramAPI.Models
         public int MovieViewTimeId { get; set; }
         public DateTime DateTime { get; set; }
         public int MovieId { get; set; }
+        [JsonIgnore]
         public virtual Movie Movie { get; set; }
 
         public MovieViewTime()

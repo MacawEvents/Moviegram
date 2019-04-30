@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using MoviegramAPI.Data;
 using MoviegramAPI.Models;
 
 namespace MoviegramAPI.Controllers
@@ -13,30 +14,33 @@ namespace MoviegramAPI.Controllers
     [ApiController]
     public class MoviesController : ControllerBase
     {
-        private readonly MoviegramAPIContext context;
+        
+        private readonly IMovieRepository movieRepository;
 
-        public MoviesController(MoviegramAPIContext context)
+        public MoviesController(IMovieRepository movieRepository)
         {
-            this.context = context;
+            this.movieRepository = movieRepository;
         }
 
-        // GET: api/Movies
+         // GET: api/Movies
         [HttpGet]
         public IEnumerable<Movie> GetMovie()
         {
-            return this.context.Movie;
+            
+            return this.movieRepository.Get();
+
         }
 
         // GET: api/Movies/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetMovie([FromRoute] int id)
+        public IActionResult GetMovie([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var movie = await this.context.Movie.FindAsync(id);
+            var movie = this.movieRepository.Get(id);
 
             if (movie == null)
             {
@@ -48,7 +52,7 @@ namespace MoviegramAPI.Controllers
 
         // PUT: api/Movies/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutMovie([FromRoute] int id, [FromBody] Movie movie)
+        public IActionResult PutMovie([FromRoute] int id, [FromBody] Movie movie)
         {
             if (!ModelState.IsValid)
             {
@@ -60,66 +64,50 @@ namespace MoviegramAPI.Controllers
                 return BadRequest();
             }
 
-            this.context.Entry(movie).State = EntityState.Modified;
-
-            try
+            if (this.movieRepository.Update(movie) == null)
             {
-                await this.context.SaveChangesAsync();
+                return NotFound(id);
             }
-            catch (DbUpdateConcurrencyException)
+            else
             {
-                if (!MovieExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return NoContent();
             }
-
-            return NoContent();
+            
         }
 
         // POST: api/Movies
         [HttpPost]
-        public async Task<IActionResult> PostMovie([FromBody] Movie movie)
+        public IActionResult PostMovie([FromBody] Movie movie)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            this.context.Movie.Add(movie);
-            await this.context.SaveChangesAsync();
+            this.movieRepository.Insert(movie);
+            
 
             return CreatedAtAction("GetMovie", new { id = movie.MovieId }, movie);
         }
 
         // DELETE: api/Movies/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteMovie([FromRoute] int id)
+        public IActionResult DeleteMovie([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var movie = await this.context.Movie.FindAsync(id);
+            var movie = this.movieRepository.Delete(id);
             if (movie == null)
             {
                 return NotFound();
             }
-
-            this.context.Movie.Remove(movie);
-            await this.context.SaveChangesAsync();
-
+   
             return Ok(movie);
         }
 
-        private bool MovieExists(int id)
-        {
-            return this.context.Movie.Any(e => e.MovieId == id);
-        }
+       
     }
 }

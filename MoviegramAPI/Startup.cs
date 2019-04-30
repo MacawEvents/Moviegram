@@ -13,6 +13,7 @@ using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.Swagger;
 using Microsoft.EntityFrameworkCore;
 using MoviegramAPI.Models;
+using MoviegramAPI.Data;
 
 namespace MoviegramAPI
 {
@@ -35,8 +36,13 @@ namespace MoviegramAPI
                 c.SwaggerDoc("v1", new Info { Title = "MoviegramAPI", Version = "v1" });
             });
 
+            
+
             services.AddDbContext<MoviegramAPIContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("MoviegramAPIContext")));
+
+            services.AddScoped<IMovieRepository, MovieRepository>();
+            //services.AddScoped<IMovieRepository, MovieRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
